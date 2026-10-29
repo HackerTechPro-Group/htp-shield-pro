@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTP Shield Settings</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    body {
+      background: #040811;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(10, 15, 26, 0.85);
+      border: 1px solid rgba(30, 41, 59, 0.6);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(15px);
+      display: flex;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: rgba(15, 23, 42, 0.4);
+      border-right: 1px solid rgba(30, 41, 59, 0.6);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      padding: 25px 20px;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shield-logo {
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      flex-shrink: 0;
+    }
+
+    .shield-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .header h1 span {
+      color: #10b981;
+    }
+
+    .nav-menu {
+      padding: 20px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+    }
+
+    .nav-btn {
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn:hover {
+      background: rgba(30, 41, 59, 0.6);
+      color: #fff;
+    }
+
+    .nav-btn.active {
+      background: rgba(14, 165, 233, 0.15);
+      color: #00f0ff;
+      font-weight: bold;
+      border-left: 3px solid #00f0ff;
+    }
+
+    .nav-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 40px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-title {
+      font-size: 22px;
+      color: #fff;
+      margin-bottom: 8px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title svg {
+      width: 24px;
+      height: 24px;
+      fill: #0ea5e9;
+    }
+
+    .section-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(30, 41, 59, 0.8);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
+    }
+
+    button.action-btn {
+      padding: 12px 25px;
+      background: #0ea5e9;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 14px;
+    }
+
+    button.action-btn:hover {
+      background: #0284c7;
+    }
+
+    .whitelist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .wl-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(30, 41, 59, 0.5);
+    }
+
+    .domain-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .remove-btn {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    textarea.rules-box {
+      width: 100%;
+      height: 250px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(30, 41, 59, 0.8);
+      border-radius: 8px;
+      color: #10b981;
+      font-family: monospace;
+      padding: 15px;
+      font-size: 13px;
+      outline: none;
+      resize: none;
+      margin-bottom: 15px;
+    }
+
+    .support-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(30, 41, 59, 0.6);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .support-card svg {
+      width: 48px;
+      height: 48px;
+      fill: #0ea5e9;
+      margin-bottom: 15px;
+    }
+
+    .support-card h3 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .support-card p {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #64748b;
+      font-size: 14px;
+      font-style: italic;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      border: 1px dashed rgba(30, 41, 59, 0.8);
+    }
+
+    .footer {
+      padding: 20px;
+      border-top: 1px solid rgba(30, 41, 59, 0.6);
+      font-size: 12px;
+      color: #64748b;
+      text-align: right;
+      background: rgba(6, 10, 18, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="header">
+        <div class="shield-logo">
+          <img src="icons/icon128.png" alt="HTP Logo">
+        </div>
+        <h1>HTP <span>SHIELD</span></h1>
+      </div>
+      <div class="nav-menu">
+        <button class="nav-btn active" data-tab="tab-whitelist"><svg viewBox="0 0 24 24">
+            <path
+              d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12-0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+          </svg> Global Settings</button>
+        <button class="nav-btn" data-tab="tab-rules"><svg viewBox="0 0 24 24">
+            <path
+              d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
+          </svg> My Filters & Rules</button>
+        <button class="nav-btn" data-tab="tab-support"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+          </svg> Support & Help</button>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <!-- Whitelist Tab -->
+      <div id="tab-whitelist" class="tab-content active">
+        <h2 class="section-title"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg> Manage Whitelist</h2>
+        <p class="section-desc">HTP Shield will be disabled automatically on the domains listed below. <br>Type a domain
+          name (e.g., youtube.com) and click Add.</p>
+        <div class="input-group">
+          <input type="text" id="domainInput" placeholder="Enter domain name (e.g. google.com)" autocomplete="off">
+          <button class="action-btn" id="addBtn">Add to Whitelist</button>
+        </div>
+        <ul class="whitelist" id="whitelistUl"></ul>
+      </div>
+
+      <!-- Filters Tab -->
+      <div id="tab-rules" class="tab-content">
+        <h2 class="section-title"><svg viewBox="0 0 24 24">
+            <path
+              d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
+          </svg> Custom Filters</h2>
+        <p class="section-desc">Add your own cosmetic network filters here. Use standard Adblock Plus syntax. (Advanced
+          Users Only)</p>
+        <textarea id="customFiltersInput" class="rules-box" spellcheck="false"
+          placeholder="! Title: My Custom Filters&#10;! Add your rules below:&#10;||example-ad-server.com^"></textarea>
+        <button class="action-btn" id="saveRulesBtn">Apply & Save Filters</button>
+      </div>
+
+      <!-- Support Tab -->
+      <div id="tab-support" class="tab-content">
+        <h2 class="section-title"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+          </svg> Help & Support</h2>
+        <p class="section-desc">Need assistance with your Pro Dashboard? We are here to help.</p>
+        <div class="support-card">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+          </svg>
+          <h3>Contact Support Team</h3>
+          <p>Email us directly at <strong>htpgroup.india@gmail.com</strong><br>Our technical team responds within 24
+            hours.</p>
+          <button class="action-btn" id="helpCenterBtn">Visit Official YouTube Channel</button>
+        </div>
+      </div>
+      <div class="footer">HTP Shield Premium Dashboard v1.0.0</div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+
+</html>

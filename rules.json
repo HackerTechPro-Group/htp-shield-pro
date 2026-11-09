@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adsterra.com^",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest", "image", "media", "ping"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||propellerads.com^",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest", "media"]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||popads.net^",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest"]
+    }
+  },
+  {
+    "id": 4,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||doubleclick.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image", "media", "ping"]
+    }
+  },
+  {
+    "id": 5,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||googlesyndication.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image", "media", "ping"]
+    }
+  },
+  {
+    "id": 6,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||googleadservices.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image", "ping"]
+    }
+  },
+  {
+    "id": 7,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||playin05.com^",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest"]
+    }
+  },
+  {
+    "id": 8,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||gohappyin.com^",
+      "resourceTypes": ["main_frame", "sub_frame", "script"]
+    }
+  },
+  {
+    "id": 9,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||taboola.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 10,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||outbrain.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 11,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||google-analytics.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping", "image"]
+    }
+  },
+  {
+    "id": 12,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||googletagmanager.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 13,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "(popunder|clickunder|betting|casino|gambling|ophionborish|dot-0|enagemimble|utm_medium=affiliate.*clickid=)",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest"]
+    }
+  },
+  {
+    "id": 14,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "/vast.xml",
+      "resourceTypes": ["xmlhttprequest", "media"]
+    }
+  },
+  {
+    "id": 15,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "/vpaid.js",
+      "resourceTypes": ["script"]
+    }
+  },
+  {
+    "id": 16,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||youtube.com/pagead/",
+      "resourceTypes": ["script", "xmlhttprequest", "ping", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 17,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||youtube.com/api/stats/ads",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 18,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||youtube.com/youtubei/v1/ad_break",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 19,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||youtube.com/get_midroll_",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 20,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://[^/]+\\.(qpon|cfd|sbs|icu|cyou|rest|hair|quest|click)/",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest"]
+    }
+  },
+  {
+    "id": 21,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||xm.com/register",
+      "resourceTypes": ["main_frame", "sub_frame"]
+    }
+  },
+  {
+    "id": 22,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||clarium.global.ssl.fastly.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 23,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||criteo.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 24,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||clarity.ms^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 25,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||connect.facebook.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 26,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||omtrdc.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping", "image"]
+    }
+  },
+  {
+    "id": 27,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||demdex.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping", "image"]
+    }
+  },
+  {
+    "id": 28,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||scorecardresearch.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping", "image"]
+    }
+  },
+  {
+    "id": 29,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||clevertap-prod.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 30,
+    "priority": 100,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||moengage.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "ping"]
+    }
+  }
+]

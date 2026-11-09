@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTP Shield Pro Dashboard</title>
+  <style>
+    /* Reset & Core Design System */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    :root {
+      --bg-dark: #0f172a;
+      --bg-panel-left: rgba(15, 23, 42, 0.95);
+      --bg-panel-right: rgba(10, 15, 26, 0.98);
+      --bg-card: rgba(30, 41, 59, 0.5);
+      --border-light: rgba(255, 255, 255, 0.08);
+      --neon-green: #10b981;
+      --neon-blue: #0ea5e9;
+      --neon-orange: #f5b041;
+      --neon-red: #ef4444;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+    }
+
+    /* COMPACT OUTER BODY (700x520) */
+    html,
+    body {
+      width: 700px;
+      height: 520px;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      user-select: none;
+      display: flex;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      animation: popupOpen 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popupOpen {
+      0% {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    /* Layout */
+    .left-panel {
+      width: 480px;
+      height: 100%;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border-light);
+      background: radial-gradient(circle at top left, rgba(14, 165, 233, 0.08), transparent 50%), var(--bg-panel-left);
+      backdrop-filter: blur(12px);
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+
+    .right-panel {
+      width: 220px;
+      height: 100%;
+      background: var(--bg-panel-right);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      animation: fadeDown 0.5s ease 0.1s both;
+    }
+
+    @keyframes fadeDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .shield-logo {
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      overflow: hidden;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      transition: transform 0.3s;
+    }
+
+    .shield-logo:hover {
+      transform: rotate(15deg) scale(1.1);
+    }
+
+    .shield-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .title-area h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .title-area h1 span {
+      color: var(--neon-green);
+    }
+
+    .title-area p {
+      font-size: 9px;
+      color: var(--text-sub);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-top: 1px;
+      font-weight: 600;
+    }
+
+    /* Radar Area */
+    .radar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin: 4px 0;
+      animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+    }
+
+    @keyframes scaleIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .radar-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .radar-button {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(0, 0, 0, 0.5) 100%);
+      border: 2px solid var(--neon-green);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      z-index: 10;
+      position: relative;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2), inset 0 0 10px rgba(16, 185, 129, 0.1);
+      outline: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .radar-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.4), inset 0 0 15px rgba(16, 185, 129, 0.2);
+    }
+
+    .radar-button:active {
+      transform: scale(0.95);
+    }
+
+    .radar-button svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--neon-green);
+      filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+      transition: fill 0.3s;
+    }
+
+    .radar-text {
+      color: var(--neon-green);
+      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .ring-1 {
+      width: 86px;
+      height: 86px;
+      animation: ripple 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ring-2 {
+      width: 86px;
+      height: 86px;
+      animation: ripple 3s infinite cubic-bezier(0.4, 0, 0.2, 1) 1s;
+    }
+
+    @keyframes ripple {
+      0% {
+        width: 86px;
+        height: 86px;
+        opacity: 0.8;
+      }
+
+      100% {
+        width: 190px;
+        height: 190px;
+        opacity: 0;
+        border-width: 1.5px;
+      }
+    }
+
+    /* Verification Pill */
+    .verification-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .v-title {
+      color: var(--neon-green);
+      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .v-badge {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--neon-green);
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 9px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+      animation: glowPulse 2s infinite;
+    }
+
+    @keyframes glowPulse {
+      0% {
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.2);
+      }
+
+      50% {
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+      }
+
+      100% {
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.2);
+      }
+    }
+
+    /* Control Buttons */
+    .control-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      flex-shrink: 0;
+      animation: fadeUp 0.5s ease 0.3s both;
+    }
+
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .control-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .control-btn:hover {
+      background: rgba(30, 41, 59, 0.8);
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .control-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .control-icon-wrapper {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
+    }
+
+    .control-btn:hover .control-icon-wrapper {
+      transform: scale(1.1);
+    }
+
+    .control-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .control-btn span {
+      font-size: 10px;
+      font-weight: 600;
+      color: #cbd5e1;
+      letter-spacing: 0.2px;
+      text-align: center;
+    }
+
+    .cb-pause .control-icon-wrapper {
+      background: rgba(245, 176, 65, 0.15);
+    }
+
+    .cb-pause svg {
+      fill: var(--neon-orange);
+    }
+
+    .cb-disable .control-icon-wrapper {
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    .cb-disable svg {
+      fill: var(--neon-red);
+    }
+
+    /* Stats Card */
+    .stats-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 14px 16px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeUp 0.5s ease 0.4s both;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .stats-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .sec-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .sec-title {
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sec-title svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--neon-blue);
+    }
+
+    .sec-actions {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+    }
+
+    .sec-actions svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    .sec-actions:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .stat-box {
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .stat-box:hover {
+      background: rgba(0, 0, 0, 0.4);
+      transform: scale(1.05);
+      z-index: 2;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 4px;
+      transition: height 0.3s;
+    }
+
+    .stat-box:hover::before {
+      top: 6px;
+      bottom: 6px;
+    }
+
+    .sb-grn::before {
+      background: var(--neon-green);
+      box-shadow: 0 0 6px var(--neon-green);
+    }
+
+    .sb-orng::before {
+      background: var(--neon-orange);
+      box-shadow: 0 0 6px var(--neon-orange);
+    }
+
+    .sb-blu::before {
+      background: var(--neon-blue);
+      box-shadow: 0 0 6px var(--neon-blue);
+    }
+
+    .sb-red::before {
+      background: var(--neon-red);
+      box-shadow: 0 0 6px var(--neon-red);
+    }
+
+    .s-val {
+      font-size: 16px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 2px;
+    }
+
+    .sb-grn .s-val {
+      color: var(--neon-green);
+    }
+
+    .sb-orng .s-val {
+      color: var(--neon-orange);
+    }
+
+    .sb-blu .s-val {
+      color: var(--neon-blue);
+    }
+
+    .sb-red .s-val {
+      color: var(--neon-red);
+    }
+
+    .s-val svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    .s-lbl {
+      font-size: 9px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    /* Quick Actions */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      flex-shrink: 0;
+      animation: fadeUp 0.5s ease 0.5s both;
+    }
+
+    .qa-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 10px 14px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qa-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: 0.5s;
+    }
+
+    .qa-btn:hover::after {
+      left: 100%;
+    }
+
+    .qa-btn:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .qa-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .qa-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+
+    .qa-btn:hover .qa-icon {
+      transform: rotate(10deg);
+    }
+
+    .qa-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
+    .qa-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .qa-text span:first-child {
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .qa-text span:last-child {
+      font-size: 9px;
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .btn-blue .qa-icon {
+      background: rgba(14, 165, 233, 0.15);
+    }
+
+    .btn-blue .qa-icon svg {
+      fill: var(--neon-blue);
+    }
+
+    .btn-green .qa-icon {
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .btn-green .qa-icon svg {
+      fill: var(--neon-green);
+    }
+
+    /* Footer */
+    .left-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 9px;
+      color: var(--text-sub);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      animation: fadeUp 0.5s ease 0.6s both;
+    }
+
+    .left-footer svg {
+      width: 12px;
+      height: 12px;
+      fill: var(--neon-green);
+    }
+
+    .brand-name {
+      color: var(--neon-blue);
+      font-weight: 800;
+      transition: color 0.3s;
+      cursor: default;
+    }
+
+    .brand-name:hover {
+      color: #fff;
+      text-shadow: 0 0 10px var(--neon-blue);
+    }
+
+    .divider {
+      opacity: 0.3;
+    }
+
+    /* RIGHT PANEL Styling */
+    .right-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      animation: fadeLeft 0.5s ease 0.2s both;
+      transition: transform 0.3s;
+    }
+
+    .right-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes fadeLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .cs-header {
+      font-size: 10px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .cs-domain {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 14px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: background 0.3s;
+      cursor: default;
+    }
+
+    .cs-domain:hover {
+      background: rgba(0, 0, 0, 0.65);
+    }
+
+    .cs-domain img {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      object-fit: contain;
+    }
+
+    .cs-domain span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cs-stats-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cs-stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #cbd5e1;
+      font-weight: 600;
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .cs-stat-item:hover {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+      padding-left: 4px;
+      color: #fff;
+    }
+
+    .cs-stat-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cs-stat-left svg {
+      width: 12px;
+      height: 12px;
+      fill: var(--text-sub);
+      transition: fill 0.2s;
+    }
+
+    .cs-stat-item:hover .cs-stat-left svg {
+      fill: var(--neon-blue);
+    }
+
+    .cs-stat-val {
+      font-weight: 800;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 10px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .cs-stat-item:hover .cs-stat-val {
+      background: var(--neon-blue);
+      transform: scale(1.1);
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 14px;
+      animation: fadeLeft 0.5s ease 0.4s both;
+    }
+
+    .nav-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 1px solid transparent;
+      background: rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: var(--neon-blue);
+      transform: scaleY(0);
+      transition: transform 0.3s;
+      transform-origin: center;
+      border-radius: 4px;
+    }
+
+    .nav-item:hover::before {
+      transform: scaleY(0.6);
+    }
+
+    .nav-item:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      transform: translateX(4px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-item:active {
+      transform: translateX(2px) scale(0.98);
+    }
+
+    .nav-item.active {
+      background: rgba(14, 165, 233, 0.15);
+      color: var(--neon-blue);
+      font-weight: 800;
+      border-color: rgba(14, 165, 233, 0.3);
+    }
+
+    .nav-item.active::before {
+      transform: scaleY(1);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-left svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      transition: transform 0.3s;
+    }
+
+    .nav-item:hover .nav-left svg {
+      transform: rotate(-10deg);
+    }
+
+    /* OFF/Disabled UI State Transitions */
+    body.disabled .radar-button {
+      border-color: var(--neon-red);
+      background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, rgba(0, 0, 0, 0.5) 100%);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.2), inset 0 0 10px rgba(239, 68, 68, 0.1);
+    }
+
+    body.disabled .radar-button:hover {
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.4), inset 0 0 15px rgba(239, 68, 68, 0.2);
+    }
+
+    body.disabled .radar-button svg {
+      fill: var(--neon-red);
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.6));
+    }
+
+    body.disabled .radar-text {
+      color: var(--neon-red);
+    }
+
+    body.disabled .ring {
+      border-color: rgba(239, 68, 68, 0.3);
+      animation: none;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    body.disabled .v-title {
+      color: var(--neon-red);
+      transition: color 0.5s;
+    }
+
+    body.disabled .v-badge {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: var(--neon-red);
+      box-shadow: 0 0 6px rgba(239, 68, 68, 0.2);
+      animation: none;
+      transition: all 0.5s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="left-panel">
+    <div class="header">
+      <div class="logo-area">
+        <div class="shield-logo">
+          <img src="icons/icon128.png" alt="HTP Logo">
+        </div>
+        <div class="title-area">
+          <h1>HTP <span>SHIELD</span></h1>
+          <p>Ultimate Cyber Protection</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RADAR BUTTON -->
+    <div class="radar-container">
+      <div class="radar-wrapper">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <button id="powerBtn" class="radar-button" title="Toggle Protection">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+          </svg>
+          <span class="radar-text" id="btnStatusText">PROTECTED</span>
+        </button>
+      </div>
+      <div class="verification-pill">
+        <span class="v-title" id="vTitleText">SECURE CONNECTION</span>
+        <div class="v-badge" id="vBadgeText">✓ ACTIVE</div>
+      </div>
+    </div>
+
+    <!-- Premium Controls -->
+    <div class="control-row">
+      <div class="control-btn cb-pause" id="btnPauseSite">
+        <div class="control-icon-wrapper"><svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
+          </svg></div>
+        <span id="txtPauseSite">Pause on this site</span>
+      </div>
+      <div class="control-btn cb-pause" id="btnPause15">
+        <div class="control-icon-wrapper"><svg viewBox="0 0 24 24">
+            <path
+              d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+          </svg></div>
+        <span id="txtPause15">Pause for 15 Mins</span>
+      </div>
+      <div class="control-btn cb-disable" id="btnDisable">
+        <div class="control-icon-wrapper"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" />
+          </svg></div>
+        <span id="txtDisable">Disable globally</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-card">
+      <div class="sec-header">
+        <div class="sec-title"><svg viewBox="0 0 24 24">
+            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+          </svg> Today's Statistics</div>
+        <div class="sec-actions btn-reset" id="btnReset"><svg viewBox="0 0 24 24">
+            <path
+              d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+          </svg> Reset</div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box sb-grn">
+          <div class="s-val"><svg viewBox="0 0 24 24"><text x="0" y="16"
+                style="font-weight:bold;fill:currentColor;font-size:12px;">AD</text></svg> <span id="stAds">0</span>
+          </div>
+          <div class="s-lbl">Ads</div>
+        </div>
+        <div class="stat-box sb-orng">
+          <div class="s-val"><svg viewBox="0 0 24 24">
+              <path d="M19 4H5c-1.1 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2z" />
+            </svg> <span id="stPopups">0</span></div>
+          <div class="s-lbl">Pop-ups</div>
+        </div>
+        <div class="stat-box sb-blu">
+          <div class="s-val"><svg viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+            </svg> <span id="stTrackers">0</span></div>
+          <div class="s-lbl">Trackers</div>
+        </div>
+        <div class="stat-box sb-red">
+          <div class="s-val"><svg viewBox="0 0 24 24">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+            </svg> <span id="stTotal">0</span></div>
+          <div class="s-lbl">Blocked</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="qa-grid">
+      <div class="qa-btn btn-blue" id="qaReload">
+        <div class="qa-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+          </svg></div>
+        <div class="qa-text"><span>Reload Page</span><span>Reload to apply protection</span></div>
+      </div>
+      <div class="qa-btn btn-green btn-options" data-tab="tab-whitelist">
+        <div class="qa-icon"><svg viewBox="0 0 24 24">
+            <path
+              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+          </svg></div>
+        <div class="qa-text"><span>Manage Allowlist</span><span>Trusted websites</span></div>
+      </div>
+    </div>
+
+    <!-- FOOTER WITH BRANDING -->
+    <div class="left-footer">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+      </svg>
+      HTP SHIELD PRO v1.0.0
+      <span class="divider">|</span>
+      Developed by <span class="brand-name">HackerTechPro Group</span>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="right-card">
+      <div class="cs-header"><span>Target Domain</span></div>
+      <div class="cs-domain">
+        <img id="dynamicDomainIcon" src="icons/icon128.png" alt="Site Icon">
+        <span id="displayDomainRight">System Page</span>
+      </div>
+      <ul class="cs-stats-list">
+        <li class="cs-stat-item">
+          <div class="cs-stat-left"><svg viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z" />
+            </svg> Page Ads</div><span class="cs-stat-val" id="rsAds">0</span>
+        </li>
+        <li class="cs-stat-item">
+          <div class="cs-stat-left"><svg viewBox="0 0 24 24">
+              <path d="M19 4H5c-1.1 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2z" />
+            </svg> Pop-ups</div><span class="cs-stat-val" id="rsPopups">0</span>
+        </li>
+        <li class="cs-stat-item">
+          <div class="cs-stat-left"><svg viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+            </svg> Trackers</div><span class="cs-stat-val" id="rsTrackers">0</span>
+        </li>
+        <li class="cs-stat-item">
+          <div class="cs-stat-left"><svg viewBox="0 0 24 24">
+              <path
+                d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
+            </svg> Suspicious</div><span class="cs-stat-val" id="rsSuspicious">0</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-menu">
+      <div class="nav-item active">
+        <div class="nav-left"><svg viewBox="0 0 24 24">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </svg> Dashboard</div>
+      </div>
+      <div class="nav-item btn-options" data-tab="tab-rules">
+        <div class="nav-left"><svg viewBox="0 0 24 24">
+            <path
+              d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
+          </svg> Custom Filters</div>
+      </div>
+      <div class="nav-item btn-options" data-tab="tab-whitelist">
+        <div class="nav-left"><svg viewBox="0 0 24 24">
+            <path
+              d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12-0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+          </svg> Global Settings</div>
+      </div>
+      <div class="nav-item btn-support">
+        <div class="nav-left"><svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+          </svg> Support / Help</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

@@ -30,7 +30,7 @@ Our goal is to make safer browsing accessible through a clean, user-friendly, an
 | Repository | HTP Shield Pro |
 | Development | Active Development |
 
-![Uploading image.png…]()
+
 
 
 Screenshots of the extension interface will be added here.
